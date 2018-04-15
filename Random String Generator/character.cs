@@ -17,7 +17,7 @@ namespace Random_String_Generator
                     return_str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
                     break;
                 case 2:
-                    return_str = "abcdefghijklmnopqrstuvwxyz";
+                    return_str = "abcdefghjkmnpqrstuvwxyzilo";
                     break;
                 case 3:
                     return_str = "0123456789";

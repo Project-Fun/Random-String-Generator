@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Random_String_Generator</RootNamespace>
     <AssemblyName>Random String Generator</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -72,7 +73,7 @@
     <Compile Include="About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
-    <Compile Include="adv_generator.cs" />
+    <Compile Include="AdvRequest.cs" />
     <Compile Include="character.cs" />
     <Compile Include="Chinese.cs" />
     <Compile Include="Controller.cs" />
@@ -84,7 +85,6 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="generator.cs" />
-    <Compile Include="gen_interface.cs" />
     <Compile Include="Language.cs" />
     <Compile Include="myPublic.cs" />
     <Compile Include="Program.cs" />

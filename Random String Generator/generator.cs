@@ -5,14 +5,28 @@ using System.Text;
 
 namespace Random_String_Generator
 {
-    public class Generator : gen_interface
+    public class Generator
     {
+
+        public string generate(AdvRequest rq)
+        {
+            string password = "";
+            password = random(rq);
+            return password;
+        }
 
         public string generate(Request rq)
         {
             string password = "";
             password = random(rq);
             return password;
+        }
+
+        private string random(AdvRequest rq)
+        {
+            string pool = rq.get_pool();
+            string output_str; //initialize final output
+            return "123";
         }
 
         private string random(Request rq)

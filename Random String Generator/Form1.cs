@@ -90,10 +90,12 @@ namespace Random_String_Generator
             if (chkbx_A_Z_No_I_O.Checked || chkbx_a_z_No_i_l_o.Checked || chkbx_0_9_No_0_1.Checked)
             {
                 btn_Generate_Text.Enabled = true;
+                btn_adv_Generate_Text.Enabled = true;
             }
             else
             {
                 btn_Generate_Text.Enabled = false;
+                btn_adv_Generate_Text.Enabled = false;
             }
         }
 
@@ -141,14 +143,62 @@ namespace Random_String_Generator
             if(chkbx_0_9_No_0_1.Checked)
             {
                 request.Add(9);
+                request.Add(0);
+                request.Add(1);
             }
             if(chkbx_a_z_No_i_l_o.Checked)
             {
                 request.Add(8);
+                request.Add(0);
+                request.Add(1);
             }
             if(chkbx_A_Z_No_I_O.Checked)
             {
                 request.Add(7);
+                request.Add(0);
+                request.Add(1);
+            }
+            return request;
+        }
+
+        private List<int> generate_advanced_request()
+        {
+            List<int> request = new List<int>();
+            if (chkbx_adv_A_Z_Cap.Checked)
+            {
+                if (radioButton1.Checked)
+                {
+                    request.Add(1);
+                }
+                else
+                {
+                    request.Add(7);
+                }
+            }
+            if (chkbx_adv_a_z_Low.Checked)
+            {
+                
+                if (radioButton4.Checked)
+                {
+                    request.Add(2);
+                }
+                else
+                {
+                    request.Add(8);
+                }
+                
+            }
+            if (chkbx_adv_0_9.Checked)
+            {
+                if(radioButton6.Checked)
+                {
+                    request.Add(3);
+                }
+                else
+                {
+                    request.Add(9);
+                }
+                
             }
             return request;
         }
@@ -279,6 +329,16 @@ namespace Random_String_Generator
             myPublic.Glo_final_string = control.generate_string(request, Convert.ToInt32(num_UpDown_Length.Value));
         }
 
+        private void bw_DoAdvancedWork(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker worker = sender as BackgroundWorker;
+
+            // Perform a time consuming operation and report progress.
+            List<int> request = new List<int>();
+            request = generate_advanced_request();
+            myPublic.Glo_final_string = control.generate_string(request, Convert.ToInt32(num_UpDown_Length.Value));
+        }
+
         //Output result to text box
         private void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
@@ -377,6 +437,96 @@ namespace Random_String_Generator
             lbl_Length.Text = lan_pack.Ui_lbl_Length;
             rihtxtbx_Result.Text = lan_pack.Ui_txtbx_Result_inti_txt;
             btn_Copy_to_clipboard.Text = lan_pack.Ui_btn_Copy_to_clipboard_Text;
+        }
+
+        private void btn_adv_Generate_Text_Click(object sender, EventArgs e)
+        {
+            if (bw.IsBusy != true)
+            {
+                myPublic.Glo_Cancel_job = false;
+                rihtxtbx_adv_Result.Text = ""; //Clear inti text
+                rihtxtbx_adv_Result.Font = new Font(rihtxtbx_adv_Result.Font, FontStyle.Regular); //Change font to regular
+                rihtxtbx_adv_Result.Enabled = true;
+                bw.RunWorkerAsync(); //Start job in another thread
+                progressBar1_adv.Maximum = myPublic.Glo_progress_max;
+                progressBar1_adv.Value = 0;
+                lbl_adv_progress.Text = "";
+                timer1.Enabled = true;
+                btn_adv_Generate_Text.Text = Change_Gen_btn_String(true);
+                menu_bar_Settings_Language.Enabled = false;
+                lbl_adv_Status.Text = "";
+            }
+            else
+            {
+                myPublic.Glo_Cancel_job = true;
+                timer1.Enabled = false;
+                progressBar1_adv.Maximum = 0;
+                progressBar1_adv.Value = 0;
+                lbl_adv_progress.Text = "";
+                btn_adv_Generate_Text.Text = Change_Gen_btn_String(false);
+                menu_bar_Settings_Language.Enabled = true;
+                lbl_adv_Status.Text = "";
+            }
+        }
+
+        private void rihtxtbx_adv_Result_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_adv_Copy_to_clipboard_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void progressBar1_adv_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lbl_adv_progress_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void chkbx_adv_A_Z_Cap_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void chkbx_adv_a_z_Low_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void radioButton4_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tab_pg_Simple_Mode_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void chkbx_adv_Chinese_Char_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void chkbx_adv_0_9_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void radioButton6_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
