@@ -24,9 +24,28 @@ namespace Random_String_Generator
 
         private string random(AdvRequest rq)
         {
-            string pool = rq.get_pool();
-            string output_str; //initialize final output
-            return "123";
+            List<char> pool = rq.get_pool_list();
+            myPublic.Glo_progress_max = rq.getTotal() + 1;
+            myPublic.Glo_progress_current = 0; //For progress bar
+            int length = rq.getTotal();
+            char[] output = new char[length];
+            Random r = new Random(Guid.NewGuid().GetHashCode() + DateTime.Now.Millisecond);
+            int rInt;
+            for (int i = 0; i < rq.getTotal(); i++ )
+            {
+                if (myPublic.Glo_Cancel_job == false)
+                {
+                    rInt = r.Next(0, pool.Count); //get a new random number
+                    output[i] = pool[rInt]; //add a new character to output list
+                    pool.RemoveAt(rInt);
+                    myPublic.Glo_progress_current++; //For progress bar
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            return new string(output);
         }
 
         private string random(Request rq)

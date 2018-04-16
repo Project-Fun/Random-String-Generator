@@ -13,6 +13,7 @@ namespace Random_String_Generator
     public partial class UI : Form
     {
         private BackgroundWorker bw = new BackgroundWorker();
+        private BackgroundWorker advBw = new BackgroundWorker();
 
         Controller control = new Controller();
 
@@ -46,6 +47,12 @@ namespace Random_String_Generator
             bw.DoWork += new DoWorkEventHandler(bw_DoWork);
             bw.ProgressChanged += new ProgressChangedEventHandler(bw_ProgressChanged);
             bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted);
+
+            advBw.WorkerReportsProgress = true;
+            advBw.WorkerSupportsCancellation = true;
+            advBw.DoWork += new DoWorkEventHandler(advBw_DoWork);
+            advBw.ProgressChanged += new ProgressChangedEventHandler(bw_ProgressChanged);
+            advBw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(advBw_RunWorkerCompleted);
         }
 
         private void UI_Load(object sender, EventArgs e)
@@ -90,14 +97,14 @@ namespace Random_String_Generator
             if (chkbx_A_Z_No_I_O.Checked || chkbx_a_z_No_i_l_o.Checked || chkbx_0_9_No_0_1.Checked)
             {
                 btn_Generate_Text.Enabled = true;
-                btn_adv_Generate_Text.Enabled = true;
             }
             else
             {
                 btn_Generate_Text.Enabled = false;
-                btn_adv_Generate_Text.Enabled = false;
             }
         }
+
+   
 
         private void btn_Generate_Text_Click(object sender, EventArgs e)
         {
@@ -174,6 +181,15 @@ namespace Random_String_Generator
                 {
                     request.Add(7);
                 }
+                request.Add((int)numericUpDown1.Value);
+                if(checkBox1.Checked)
+                {
+                    request.Add(0);
+                }
+                else
+                {
+                    request.Add(1);
+                }
             }
             if (chkbx_adv_a_z_Low.Checked)
             {
@@ -186,7 +202,16 @@ namespace Random_String_Generator
                 {
                     request.Add(8);
                 }
-                
+                request.Add((int)numericUpDown2.Value);
+                if (checkBox2.Checked)
+                {
+                    request.Add(0);
+                }
+                else
+                {
+                    request.Add(1);
+                }
+
             }
             if (chkbx_adv_0_9.Checked)
             {
@@ -198,8 +223,44 @@ namespace Random_String_Generator
                 {
                     request.Add(9);
                 }
-                
+                request.Add((int)numericUpDown3.Value);
+                if (checkBox3.Checked)
+                {
+                    request.Add(0);
+                }
+                else
+                {
+                    request.Add(1);
+                }
+
             }
+            if(chkbx_adv_Chinese_Char.Checked)
+            {
+                request.Add(5);
+                request.Add((int)numericUpDown4.Value);
+                if (checkBox4.Checked)
+                {
+                    request.Add(0);
+                }
+                else
+                {
+                    request.Add(1);
+                }
+            }
+            if (chkbx_adv_Specified_text.Checked)
+            {
+                request.Add(6);
+                request.Add((int)numericUpDown5.Value);
+                if (checkBox5.Checked)
+                {
+                    request.Add(0);
+                }
+                else
+                {
+                    request.Add(1);
+                }
+            }
+            
             return request;
         }
 
@@ -329,14 +390,14 @@ namespace Random_String_Generator
             myPublic.Glo_final_string = control.generate_string(request, Convert.ToInt32(num_UpDown_Length.Value));
         }
 
-        private void bw_DoAdvancedWork(object sender, DoWorkEventArgs e)
+        private void advBw_DoWork(object sender, DoWorkEventArgs e)
         {
             BackgroundWorker worker = sender as BackgroundWorker;
 
             // Perform a time consuming operation and report progress.
             List<int> request = new List<int>();
             request = generate_advanced_request();
-            myPublic.Glo_final_string = control.generate_string(request, Convert.ToInt32(num_UpDown_Length.Value));
+            myPublic.Glo_final_string = control.generate_adv_string(request);
         }
 
         //Output result to text box
@@ -366,7 +427,34 @@ namespace Random_String_Generator
                 }
             }
         }
-        
+
+        private void advBw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if ((e.Cancelled == true))
+            {
+
+            }
+
+            else if (!(e.Error == null))
+            {
+                //this.tbProgress.Text = ("Error: " + e.Error.Message);
+            }
+
+            else
+            {
+                //this.tbProgress.Text = "Done!";
+                //label.Content = "11";
+                if (myPublic.Glo_Cancel_job == false)
+                {
+                    rihtxtbx_adv_Result.Text = myPublic.Glo_final_string;
+                }
+                else
+                {
+
+                }
+            }
+        }
+
         //Keep it for thread progress
         private void bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
@@ -398,6 +486,29 @@ namespace Random_String_Generator
                 btn_Generate_Text.Text = Change_Gen_btn_String(false);
                 menu_bar_Settings_Language.Enabled = true;
                 timer1.Enabled = false;
+            }
+        }
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            if (progressBar1_adv.Maximum != myPublic.Glo_progress_max)
+            {
+                progressBar1_adv.Maximum = myPublic.Glo_progress_max;
+            }
+
+            if (progressBar1_adv.Value < myPublic.Glo_progress_max)
+            {
+                progressBar1_adv.Value = myPublic.Glo_progress_current;
+                //lbl_progress.Text = Convert.ToString(myPublic.Glo_progress_current) + "/" + Convert.ToString(myPublic.Glo_progress_max);
+                decimal tmp_progress;
+                tmp_progress = Convert.ToDecimal(myPublic.Glo_progress_current) / Convert.ToDecimal(myPublic.Glo_progress_max);
+                lbl_adv_progress.Text = (tmp_progress * 100).ToString("#") + "%";
+            }
+            else
+            {
+                btn_adv_Generate_Text.Text = Change_Gen_btn_String(false);
+                menu_bar_Settings_Language.Enabled = true;
+                timer2.Enabled = false;
             }
         }
 
@@ -441,13 +552,13 @@ namespace Random_String_Generator
 
         private void btn_adv_Generate_Text_Click(object sender, EventArgs e)
         {
-            if (bw.IsBusy != true)
+            if (advBw.IsBusy != true)
             {
                 myPublic.Glo_Cancel_job = false;
                 rihtxtbx_adv_Result.Text = ""; //Clear inti text
                 rihtxtbx_adv_Result.Font = new Font(rihtxtbx_adv_Result.Font, FontStyle.Regular); //Change font to regular
                 rihtxtbx_adv_Result.Enabled = true;
-                bw.RunWorkerAsync(); //Start job in another thread
+                advBw.RunWorkerAsync(); //Start job in another thread
                 progressBar1_adv.Maximum = myPublic.Glo_progress_max;
                 progressBar1_adv.Value = 0;
                 lbl_adv_progress.Text = "";
@@ -466,6 +577,18 @@ namespace Random_String_Generator
                 btn_adv_Generate_Text.Text = Change_Gen_btn_String(false);
                 menu_bar_Settings_Language.Enabled = true;
                 lbl_adv_Status.Text = "";
+            }
+        }
+
+        private void Change_adv_btn_State()
+        {
+            if (chkbx_adv_A_Z_Cap.Checked || chkbx_adv_a_z_Low.Checked || chkbx_adv_0_9.Checked || chkbx_adv_Chinese_Char.Checked || chkbx_adv_Specified_text.Checked)
+            {
+                btn_adv_Generate_Text.Enabled = true;
+            }
+            else
+            {
+                btn_adv_Generate_Text.Enabled = false;
             }
         }
 
@@ -496,12 +619,14 @@ namespace Random_String_Generator
 
         private void chkbx_adv_A_Z_Cap_CheckedChanged(object sender, EventArgs e)
         {
-
+            Change_adv_btn_State();
+            changeOptionState(chkbx_adv_A_Z_Cap, new Control[] {radioButton1, radioButton3, checkBox1, numericUpDown1});
         }
 
         private void chkbx_adv_a_z_Low_CheckedChanged(object sender, EventArgs e)
         {
-
+            Change_adv_btn_State();
+            changeOptionState(chkbx_adv_a_z_Low, new Control[] {radioButton4, radioButton2, checkBox2, numericUpDown2});
         }
 
         private void radioButton4_CheckedChanged(object sender, EventArgs e)
@@ -516,15 +641,103 @@ namespace Random_String_Generator
 
         private void chkbx_adv_Chinese_Char_CheckedChanged(object sender, EventArgs e)
         {
+            Change_adv_btn_State();
+            changeOptionState(chkbx_adv_Chinese_Char, new Control[] { checkBox4, numericUpDown4 });
 
         }
 
         private void chkbx_adv_0_9_CheckedChanged(object sender, EventArgs e)
         {
-
+            Change_adv_btn_State();
+            changeOptionState(chkbx_adv_0_9, new Control[] { radioButton6, radioButton5, checkBox3, numericUpDown3 });
         }
 
         private void radioButton6_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void numericUpDown2_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void numericUpDown3_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void chkbx_adv_Specified_text_CheckedChanged(object sender, EventArgs e)
+        {
+            Change_adv_btn_State();
+            changeOptionState(chkbx_adv_Specified_text, new Control[] { checkBox5, numericUpDown5 });
+        }
+
+        private void radioButton3_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void changeOptionState(CheckBox main, Control[] subOptions)
+        {
+            foreach(var option in subOptions)
+            {
+                option.Enabled = main.Checked;
+                
+            }
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox4_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void numericUpDown4_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void radioButton5_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox5_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void rihtxtbx_Result_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void progressBar1_Click(object sender, EventArgs e)
         {
 
         }

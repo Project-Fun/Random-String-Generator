@@ -7,7 +7,7 @@ namespace Random_String_Generator
 {
     public class Character
     {
-        private string single_string_option(int num_type)
+        public string single_string_option(int num_type)
         {
             //return a string based on the option 
             string return_str;

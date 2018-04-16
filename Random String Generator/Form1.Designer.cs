@@ -86,6 +86,7 @@
             this.menu_bar_help_help = new System.Windows.Forms.ToolStripMenuItem();
             this.menu_bar_help_about = new System.Windows.Forms.ToolStripMenuItem();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.tab_ctrl.SuspendLayout();
             this.tab_pg_Simple_Mode.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -169,6 +170,7 @@
             // 
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(133, 25);
+            this.progressBar1.Click += new System.EventHandler(this.progressBar1_Click);
             // 
             // lbl_progress
             // 
@@ -195,6 +197,7 @@
             this.rihtxtbx_Result.Size = new System.Drawing.Size(528, 39);
             this.rihtxtbx_Result.TabIndex = 5;
             this.rihtxtbx_Result.Text = "Result will be displayed here...";
+            this.rihtxtbx_Result.TextChanged += new System.EventHandler(this.rihtxtbx_Result_TextChanged);
             // 
             // lbl_Length
             // 
@@ -304,6 +307,7 @@
             this.chkbx_adv_Specified_text.TabIndex = 8;
             this.chkbx_adv_Specified_text.Text = "Specified Text";
             this.chkbx_adv_Specified_text.UseVisualStyleBackColor = true;
+            this.chkbx_adv_Specified_text.CheckedChanged += new System.EventHandler(this.chkbx_adv_Specified_text_CheckedChanged);
             // 
             // groupBox5
             // 
@@ -337,6 +341,7 @@
             this.checkBox5.TabIndex = 6;
             this.checkBox5.Text = "No repeat";
             this.checkBox5.UseVisualStyleBackColor = true;
+            this.checkBox5.CheckedChanged += new System.EventHandler(this.checkBox5_CheckedChanged);
             // 
             // chkbx_adv_Chinese_Char
             // 
@@ -370,6 +375,7 @@
             this.numericUpDown4.Name = "numericUpDown4";
             this.numericUpDown4.Size = new System.Drawing.Size(132, 36);
             this.numericUpDown4.TabIndex = 7;
+            this.numericUpDown4.ValueChanged += new System.EventHandler(this.numericUpDown4_ValueChanged);
             // 
             // checkBox4
             // 
@@ -382,6 +388,7 @@
             this.checkBox4.TabIndex = 6;
             this.checkBox4.Text = "No repeat";
             this.checkBox4.UseVisualStyleBackColor = true;
+            this.checkBox4.CheckedChanged += new System.EventHandler(this.checkBox4_CheckedChanged);
             // 
             // chkbx_adv_0_9
             // 
@@ -417,6 +424,7 @@
             this.numericUpDown3.Name = "numericUpDown3";
             this.numericUpDown3.Size = new System.Drawing.Size(132, 36);
             this.numericUpDown3.TabIndex = 7;
+            this.numericUpDown3.ValueChanged += new System.EventHandler(this.numericUpDown3_ValueChanged);
             // 
             // radioButton5
             // 
@@ -429,6 +437,7 @@
             this.radioButton5.TabIndex = 5;
             this.radioButton5.Text = "2-9";
             this.radioButton5.UseVisualStyleBackColor = true;
+            this.radioButton5.CheckedChanged += new System.EventHandler(this.radioButton5_CheckedChanged);
             // 
             // radioButton6
             // 
@@ -456,6 +465,7 @@
             this.checkBox3.TabIndex = 6;
             this.checkBox3.Text = "No repeat";
             this.checkBox3.UseVisualStyleBackColor = true;
+            this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
             // 
             // chkbx_adv_a_z_Low
             // 
@@ -491,6 +501,7 @@
             this.numericUpDown2.Name = "numericUpDown2";
             this.numericUpDown2.Size = new System.Drawing.Size(132, 36);
             this.numericUpDown2.TabIndex = 7;
+            this.numericUpDown2.ValueChanged += new System.EventHandler(this.numericUpDown2_ValueChanged);
             // 
             // radioButton2
             // 
@@ -503,6 +514,7 @@
             this.radioButton2.TabIndex = 5;
             this.radioButton2.Text = "a-z (No i, l, o)";
             this.radioButton2.UseVisualStyleBackColor = true;
+            this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
             // 
             // radioButton4
             // 
@@ -530,6 +542,7 @@
             this.checkBox2.TabIndex = 6;
             this.checkBox2.Text = "No repeat";
             this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
             // chkbx_adv_A_Z_Cap
             // 
@@ -565,6 +578,7 @@
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(132, 36);
             this.numericUpDown1.TabIndex = 3;
+            this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             // 
             // radioButton3
             // 
@@ -577,6 +591,7 @@
             this.radioButton3.TabIndex = 1;
             this.radioButton3.Text = "A-Z (No I, O)";
             this.radioButton3.UseVisualStyleBackColor = true;
+            this.radioButton3.CheckedChanged += new System.EventHandler(this.radioButton3_CheckedChanged);
             // 
             // radioButton1
             // 
@@ -604,6 +619,7 @@
             this.checkBox1.TabIndex = 2;
             this.checkBox1.Text = "No repeat";
             this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // btn_adv_Copy_to_clipboard
             // 
@@ -751,6 +767,10 @@
             // 
             this.timer1.Interval = 1;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // timer2
+            // 
+            this.timer2.Interval = 1;
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
             // 
             // UI
             // 
@@ -818,6 +838,7 @@
         private System.Windows.Forms.Label lbl_Length;
         private System.Windows.Forms.RichTextBox rihtxtbx_Result;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Timer timer2;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripProgressBar progressBar1;
         private System.Windows.Forms.ToolStripStatusLabel lbl_progress;
